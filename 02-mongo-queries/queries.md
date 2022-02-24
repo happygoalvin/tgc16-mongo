@@ -1,27 +1,30 @@
-Show all the databases in your server
+# Show all the databases in your server
+
 ```
 show databases;
 ```
-To set the active database `sample_airbnb`
+
+# To set the active database `sample_airbnb`
 ```
 use sample_airbnb;
 ```
 
-To know what is the current database
+# To know what is the current database
 ```
 db
 ```
 
-To see all the collections in the current active database:
+# To see all the collections in the current active database:
 ```
 show collections
 ```
+
 # Find documents
-Generic syntax:
+1. Generic syntax:
 ```
 db.<name of collection>.find()
 ```
-Prettify the result:
+2. Prettify the result:
 ```
 db.listingsAndReviews.find().pretty();
 ```
@@ -42,8 +45,8 @@ db.listingsAndReviews.find({},{
 ```
 Note: first argument is the criteria to filter by
 and if it is an empty object it means we want all documents
-```
 # Filter by a criteria
+```
 db.listingsAndReviews.find({
     'beds':2,
 },{
@@ -141,7 +144,7 @@ db.listingsAndReviews.find({
 }).pretty()
 ```
 
-eg. $all will only match if everything in aray is in amenities
+eg. $all will only match if everything in array is in amenities
 ```
 db.listingsAndReviews.find({
     'amenities':{
@@ -204,3 +207,71 @@ db.listingsAndReviews.find({
     'bedrooms':1
 }).pretty()
 ```
+
+# Find all listings that has been reviewed by Octavio
+In other words, we want to shortlist documents by a field in one of their embedded objects.
+
+```
+db.listingsAndReviews.find({
+    'reviews':{
+        '$elemMatch':{
+            'reviewer_name':'Octavio'
+        }
+    }
+},{
+    'name':1,
+    'reviews.$':1
+}).pretty()
+```
+
+# Match by date
+
+The date in the ISO format: YYYY-MM-DD and we need to wrap it with a function
+
+Find all listings that have been reviewed before 2019:
+```
+db.listingsAndReviews.find({
+    'first_review':{
+        '$lte':ISODate("2018-12-31")
+    }
+},{
+    'name':1,
+    'first_review':1
+}).pretty()
+```
+
+# Find by string pattern (i.e regular expressions)
+Find all the listings where the name includes the word 'spacious'
+
+Note: the `i` for the `$options` means case insensitive comparison
+```
+db.listingsAndReviews.find({
+    'name': {
+        '$regex': 'Spacious','$options':'i'
+    }
+},{
+    'name':1
+}).pretty()
+```
+
+# Counting results
+Count all the number of listings:
+
+```
+db.listingsAndReviews.find().count()
+```
+
+# We find all listings that have at least 6 amenities
+
+To find if a listing have 6 or more amenities, we'll check if the 6th element of the amenities array exist:
+```
+db.listingsAndReviews.find({
+    'amenities.5': {
+        '$exists':true
+    } 
+},{
+    'name': 1,
+    'amenities':1
+}).pretty()
+```
+
