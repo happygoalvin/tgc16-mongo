@@ -190,3 +190,101 @@ db.sales.find({
     'items':1
 }).pretty()
 ```
+
+# `Create a Database`
+
+HANDS ON
+Create a new mongodb database with the name fake_school
+Create a new collection name students
+Add to the students collection the following documents:
+
+Name: Jane Doe
+Age: 13
+Subjects: Defense Against the Dark Arts, Charms, History of Magic
+Date Enrolled: 13th May 2016
+
+Name: James Verses
+Age: 14
+Subjects: Transfiguration, Alchemy
+Date Enrolled: 15th June 2015
+
+Name: Jonathan Goh
+Age: 12
+Subjects: Divination, Study of Ancient Runes
+Date Enrolled: 16th April 2017
+
+```
+use fake_school
+
+db.students.insertMany([
+    {
+        'Name': 'Jane Doe',
+        'Age': 13,
+        'Subjects': '[Defense Against the Dark Arts, Charms, History of Magic'],
+        'Date Enrolled': ISODate('13-05-2016')
+    },
+    {
+        'Name': 'James Verses',
+        'Age': 14,
+        'Subjects': ['Transfiguration, Alchemy'],
+        'Date Enrolled': ISODate('15-06-2015')
+    },
+    {
+        'Name': 'Jonathan Goh',
+        'Age': 12,
+        'Subjects': ['Divination, Study of Ancient Runes'],
+        'Date Enrolled': ISODate('16-04-2017')
+    }
+])
+
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("6217319a320b9e43974ea830"),
+                ObjectId("6217319a320b9e43974ea831"),
+                ObjectId("6217319a320b9e43974ea832")
+        ]
+}
+```
+
+
+# Hands on for Update documents
+Increase the age of all the students by 1
+```
+db.students.updateMany({},
+    {$inc: {
+        'Age': +1
+    }
+})
+```
+Change the date enrolled of Jonathan Goh to 2018 13th May
+```
+db.students.updateOne({
+    '_id':ObjectId("6217319a320b9e43974ea832")
+},{
+    $set:{
+        'Date Enrolled':'2018 13th May'
+    }
+})
+```
+Change the age of James Verses to 13
+```
+db.students.updateOne({
+    'Name':'James Verses'
+},{
+    $set:{
+        'Age':13
+    }
+})
+```
+Change the student with the name of "Jane Doe" to "Jane Doe Jr" and her age to 11.
+```
+db.students.updateOne({
+    'Name':'Jane Doe Jr'
+},{
+    $set:{
+        'Name':'Jane Doe Jr',
+        'Age':11
+    }
+})
+```
