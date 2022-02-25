@@ -1,0 +1,29 @@
+{{#extends 'base'}}
+
+{{#block "content"}}
+<a href="https://3000-happygoalvin-tgc16mongo-nzzrwqm7rbm.ws-us34.gitpod.io/animals/add" class="btn btn-primary mt-3">Add Animal</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Type</th>
+            <th>Gender</th>
+            <th>Notes</th>
+        </tr>
+    </thead>
+    {{#each animalRecord}}
+    <tr>
+        <td>{{this._id}}</td>
+        <td>{{this.name}}</td>
+        <td>{{this.age}}</td>
+        <td>{{this.type}}</td>
+        <td>{{this.gender}}</td>
+        <td>{{this.notes}}</td>
+    </tr>
+    {{/each}}
+</table>
+{{/block}}
+
+{{/extends}}

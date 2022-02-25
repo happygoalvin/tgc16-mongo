@@ -1,0 +1,20 @@
+{
+  "name": "04-express-mongo",
+  "version": "1.0.0",
+  "description": "npm init yarn add express yarn add hbs yarn add wax-on",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "hbs": "^4.2.0",
+    "mongodb": "^4.4.0",
+    "nodemon": "^2.0.15",
+    "wax-on": "^1.2.2"
+  },
+  "devDependencies": {}
+}

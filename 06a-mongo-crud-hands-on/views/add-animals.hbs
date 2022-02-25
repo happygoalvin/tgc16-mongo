@@ -1,0 +1,38 @@
+{{#extends "base"}}
+
+{{#block "content"}}
+<h1>Add new animal</h1>
+<form method="POST">
+    <div>
+        <label>Name:</label>
+        <input type="text" class="form-control" id="name" name="animalName"/>
+    </div>
+    <div>
+        <label>Age:</label>
+        <input type="text" class="form-control" id="age" name="age"/>
+    </div>
+    <div>
+        <label>Type:</label>
+        <select class="form-select" name="type">
+        {{#each type}}
+            <option value="{{this.value}}">{{this.name}}</option>
+        {{/each}}
+        </select>       
+    </div>
+    <div>
+        <label>Gender:</label>
+        <input type="radio" class="form-check-input" value="male" name="gender" id="male"/>
+        <label class="form-check-label">Male</label>
+
+        <input type="radio" class ="form-check-input" name="gender" value="female" id="female"/>
+        <label class="form-check-label">Female</label>
+    </div>
+    <div>
+        <label>Notes</label>
+        <input type="text" class="form-control" name="notes" id="notes"/>
+    </div>
+    <input type="submit" value="Submit" class="btn btn-primary mt-3"/>
+</form>
+{{/block}}
+
+{{/extends}}
