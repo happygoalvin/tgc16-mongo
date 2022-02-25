@@ -12,10 +12,11 @@
     </thead>
     {{#each foodRecords}}
     <tr>
-        <td>{{this.id}}</td>
+        <td>{{this._id}}</td>
         <td>{{this.name}}</td>
         <td>{{this.calories}}</td>
         <td>{{this.tags}}</td>
+        <td><a href="/food/{{this._id}}/edit" class="btn btn-primary">Edit</a></td>
     </tr>
     {{/each}}
 </table>

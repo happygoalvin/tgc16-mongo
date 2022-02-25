@@ -1,12 +1,17 @@
 const express = require('express');
 const hbs = require('hbs');
+const ObjectId = require('mongodb').ObjectId;
 const wax = require('wax-on');
 require('dotenv').config();
 const {
     connect,
     getDB
 } = require('./MongoUtil');
-
+const helpers = require('handlebars-helpers')(
+    {
+        'handlebars' : hbs.handlebars
+    }
+)
 const app = express();
 app.set('view engine', 'hbs');
 
@@ -71,6 +76,40 @@ async function main() {
         });
 
         res.send("form recieved");
+    })
+
+    app.get('/food/:food_id/edit', async function(req,res){
+        // get the record with the id in the parameter
+        let foodRecord = await getDB().collection('food_records').findOne({
+            '_id': ObjectId(req.params.food_id)
+        })
+        res.render('edit_food.hbs',{
+            'food': foodRecord
+        })
+    })
+
+    app.post('/food/:food_id/edit', async function(req,res){
+        
+        let tags = req.body.tags || [];
+        tags = Array.isArray(tags) ? tags : [tags];
+        
+        let foodDocument = {
+            'name': req.body.foodName,
+            'calories': req.body.calories,
+            'tags': tags
+        }
+        
+        await getDB().collection('food_records').updateOne({
+            '_id': ObjectId(req.params.food_id)
+        },{
+            '$set': {
+                name: foodDocument.name,
+                calories: foodDocument.calories,
+                tags: foodDocument.tags
+            }
+        })
+
+        res.redirect('/')
     })
 }
 
