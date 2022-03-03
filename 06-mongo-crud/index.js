@@ -83,6 +83,15 @@ async function main() {
         let foodRecord = await getDB().collection('food_records').findOne({
             '_id': ObjectId(req.params.food_id)
         })
+
+        if (!Array.isArray(foodRecord.tags)) {
+            if (foodRecord.tags) {
+                foodRecord.tags = [foodRecord.tags];
+            } else {
+                foodRecord.tags = [];
+            }
+        }
+
         res.render('edit_food.hbs',{
             'food': foodRecord
         })
@@ -109,6 +118,24 @@ async function main() {
             }
         })
 
+        res.redirect('/')
+    })
+
+    app.get('/food/:food_id/delete', async function (req,res) {
+        let foodRecord = await getDB().collection('food_records').findOne({
+            '_id': ObjectId(req.params.food_id)
+        })
+        console.log(foodRecord)
+        res.render('delete_product.hbs', {
+            'foodRecord': foodRecord
+        })
+    })
+
+    app.post('/food/:food_id/delete', async function(req,res) {
+        let food_id = req.params.food_id;
+        await getDB().collection('food_records').deleteOne({
+            '_id': ObjectId(food_id)
+        })
         res.redirect('/')
     })
 }
